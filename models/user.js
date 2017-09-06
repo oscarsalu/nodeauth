@@ -1,11 +1,11 @@
-var mongoose = require('mongoose');
-var bcrypt = require('bcrypt');
+var mongoose = require('mongoose')
+var bcrypt = require('bcrypt')
 
-mongoose.connect('mongodb://localhost/nodeauth');
+mongoose.connect('mongodb://localhost/nodeauth')
 
-var db = mongoose.Connection;
+var db = mongoose.Connection
 
-//user schema
+// user schema
 
 var UserSchema = mongoose.Schema({
     username: {
@@ -26,32 +26,31 @@ var UserSchema = mongoose.Schema({
     profileimage: {
         type: String
     }
-});
+})
 
-var user = module.exports = mongoose.model('User', UserSchema);
+var user = module.exports = mongoose.model('User', UserSchema)
 
 module.exports.comparePassword = function(candidatePassword, hash, callback) {
     bcrypt.compare(candidatePassword, hash, function(err, isMatch) {
-        if (err) return callback(err);
-        callback(null, isMatch);
-    });
+        if (err) return callback(err)
+        callback(null, isMatch)
+    })
 }
 
 module.exports.getUserByUsername = function(username, callback) {
     var query = { username: username };
-    User.findOne(query, callback);
+    user.findOne(query, callback);
 }
 module.exports.getUserById = function(id, callback) {
-    User.findById(id, callback);
+    user.findById(id, callback)
 }
 
 module.exports.createUser = function(newUser, callback) {
     bcrypt.hash(newUser.password, 10, function(error, hash) {
-        if (err) throw err;
-        //set hashed password
-        newUser.password = hash;
-        //create user
-        newUser.save(callback);
-    });
-
+        if (error) throw error
+            // set hashed password
+        newUser.password = hash
+            // create user
+        newUser.save(callback)
+    })
 }

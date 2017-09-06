@@ -72,6 +72,12 @@ app.use(function(req, res, next) {
     next()
 })
 
+//this is to make te users model global(available to all views)
+app.get('*', function(req, res, next) {
+    res.locals.user = req.user || null;
+    next();
+})
+
 app.use('/', index)
 app.use('/users', users)
 
